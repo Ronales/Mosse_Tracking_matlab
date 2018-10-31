@@ -4,96 +4,96 @@ dataset = 'Surfer';
 path = [datadir dataset];
 img_path = [path '/img/'];
 D = dir([img_path, '*.jpg']);
-seq_len = length(D(not([D.isdir])));                   %»ñÈ¡Í¼Æ¬ĞòÁĞ³¤¶È
-if exist([img_path num2str(1, '%04i.jpg')], 'file'),   %num2str½«Êı×Ö×ª»»Îª×Ö·ûÊı×é/
-    img_files = num2str((1:seq_len)', [img_path '%04i.jpg']);   %µÃµ½ËùÓĞ¶ÔÓ¦µÄÍ¼Æ¬
+seq_len = length(D(not([D.isdir])));                   %è·å–å›¾ç‰‡åºåˆ—é•¿åº¦
+if exist([img_path num2str(1, '%04i.jpg')], 'file'),   %num2strå°†æ•°å­—è½¬æ¢ä¸ºå­—ç¬¦æ•°ç»„/
+    img_files = num2str((1:seq_len)', [img_path '%04i.jpg']);   %å¾—åˆ°æ‰€æœ‰å¯¹åº”çš„å›¾ç‰‡
     %disp(img_files);
 else
     error('No image files found in the directory.');
 end
 
 % select target from first frame
-im = imread(img_files(1,:));    %¶ÁÈ¡µÚÒ»Ö¡µÄÍ¼Æ¬
-%[X,map]=imread('forest.png')  Ôò´ú±íXÎªÍ¼ÏñÑÕÉ«Öµ£¬map´ú±íÉ«ËØ(Í¨µÀ)
+im = imread(img_files(1,:));    %è¯»å–ç¬¬ä¸€å¸§çš„å›¾ç‰‡
+%[X,map]=imread('forest.png')  åˆ™ä»£è¡¨Xä¸ºå›¾åƒé¢œè‰²å€¼ï¼Œmapä»£è¡¨è‰²ç´ (é€šé“)
 f = figure('Name', 'Select object to track'); imshow(im);   
-%figure±íÊ¾µ¯³ö¿òÃû³Æ/imshow±íÊ¾ÔÚµ¯³ö´°¿ÚÏÔÊ¾µÚÒ»Ö¡Í¼Æ¬
-rect = getrect; %getrectº¯Êı¼´ÓÃÊó±êÖ¸¶¨¾ØĞÎ
-%ÆäÖĞrect·µ»ØÖµÎªÑ¡¶¨¾ØĞÎÒÔ´ËÎª£º×óÏÂ½ÇµÄ×ø±ê£¬¿í¶È£¬¸ß¶È
+%figureè¡¨ç¤ºå¼¹å‡ºæ¡†åç§°/imshowè¡¨ç¤ºåœ¨å¼¹å‡ºçª—å£æ˜¾ç¤ºç¬¬ä¸€å¸§å›¾ç‰‡
+rect = getrect; %getrectå‡½æ•°å³ç”¨é¼ æ ‡æŒ‡å®šçŸ©å½¢
+%å…¶ä¸­rectè¿”å›å€¼ä¸ºé€‰å®šçŸ©å½¢ä»¥æ­¤ä¸ºï¼šå·¦ä¸‹è§’çš„åæ ‡ï¼Œå®½åº¦ï¼Œé«˜åº¦
 close(f); clear f;
-center = [rect(2)+rect(4)/2 rect(1)+rect(3)/2];%»ñµÃ¾ØĞÎ¿òµÄÖĞĞÄµã×İ£¬ºá×ø±ê£¨¸ß ¿í£©¼´µÚÒ»Ö¡Í¼ÏñµÄÖĞĞÄµã
+center = [rect(2)+rect(4)/2 rect(1)+rect(3)/2];%è·å¾—çŸ©å½¢æ¡†çš„ä¸­å¿ƒç‚¹çºµï¼Œæ¨ªåæ ‡ï¼ˆé«˜ å®½ï¼‰å³ç¬¬ä¸€å¸§å›¾åƒçš„ä¸­å¿ƒç‚¹
 
 % plot gaussian
 sigma = 100;
-gsize = size(im);   %»ñÈ¡µÚÒ»Ö¡Í¼Æ¬µÄ³ß´ç:¸ß ¿í 3Í¨µÀ
-[R,C] = ndgrid(1:gsize(1), 1:gsize(2)); %ndgrid Éú³Égsize(1)xgsize(2)µÄ¸ßÎ¬¾ØÕó£¬²ÎÊı1´ú±í×İÏò/²ÎÊı¶ş´ú±íºáÏò
-%ndgridÓÃ·¨£ºhttps://blog.csdn.net/u012183487/article/details/76149279
-g = gaussC(R,C, sigma, center);  %µ÷ÓÃ¸ßË¹º¯Êı
-g = mat2gray(g);%°ÑÒ»¸ödoubleÀàµÄÈÎÒâÊı×é×ª»»³ÉÖµ·¶Î§ÔÚ[0,1]µÄ¹éÒ»»¯doubleÀàÊı×é
+gsize = size(im);   %è·å–ç¬¬ä¸€å¸§å›¾ç‰‡çš„å°ºå¯¸:é«˜ å®½ 3é€šé“
+[R,C] = ndgrid(1:gsize(1), 1:gsize(2)); %ndgrid ç”Ÿæˆgsize(1)xgsize(2)çš„é«˜ç»´çŸ©é˜µï¼Œå‚æ•°1ä»£è¡¨çºµå‘/å‚æ•°äºŒä»£è¡¨æ¨ªå‘
+%ndgridç”¨æ³•ï¼šhttps://blog.csdn.net/u012183487/article/details/76149279
+g = gaussC(R,C, sigma, center);  %è°ƒç”¨é«˜æ–¯å‡½æ•°
+g = mat2gray(g);%æŠŠä¸€ä¸ªdoubleç±»çš„ä»»æ„æ•°ç»„è½¬æ¢æˆå€¼èŒƒå›´åœ¨[0,1]çš„å½’ä¸€åŒ–doubleç±»æ•°ç»„
 
 % randomly warp original image to create training set
-if (size(im,3) == 3) %size(A,n)£¬size½«·µ»Ø¾ØÕóµÄĞĞÊı»òÁĞÊı
-    img = rgb2gray(im);  %½«RGBÍ¼Ïñ»ò²ÊÉ«Í¼×ª»»Îª»Ò¶ÈÍ¼Ïñ
+if (size(im,3) == 3) %size(A,n)ï¼Œsizeå°†è¿”å›çŸ©é˜µçš„è¡Œæ•°æˆ–åˆ—æ•°
+    img = rgb2gray(im);  %å°†RGBå›¾åƒæˆ–å½©è‰²å›¾è½¬æ¢ä¸ºç°åº¦å›¾åƒ
 end
-%imcrop±íÊ¾°´µÚÒ»Ö¡Ñ¡ÔñµÄ¾ØĞÎ´óĞ¡²Ã¼ôÍ¼Æ¬
-img = imcrop(img, rect); %°´Ñ¡¶¨µÄ¾ØĞÎ¿ò²Ã¼ôµÚÒ»Ö¡»Ò¶ÈÍ¼´óĞ¡
-%imcrop £º https://blog.csdn.net/llxue0925/article/details/80431508
+%imcropè¡¨ç¤ºæŒ‰ç¬¬ä¸€å¸§é€‰æ‹©çš„çŸ©å½¢å¤§å°è£å‰ªå›¾ç‰‡
+img = imcrop(img, rect); %æŒ‰é€‰å®šçš„çŸ©å½¢æ¡†è£å‰ªç¬¬ä¸€å¸§ç°åº¦å›¾å¤§å°
+%imcrop ï¼š https://blog.csdn.net/llxue0925/article/details/80431508
 g = imcrop(g, rect); %
-G = fft2(g);   %¶şÎ¬¿ìËÙ¸µÀïÒ¶±ä»»£¬½«ÏìÓ¦Êä³ög±ä³ÉG
+G = fft2(g);   %äºŒç»´å¿«é€Ÿå‚…é‡Œå¶å˜æ¢ï¼Œå°†å“åº”è¾“å‡ºgå˜æˆG
 height = size(g,1);   %height=179
 width = size(g,2);    %width=130
-%f±íÊ¾ÊäÈëÍ¼Ïñ
+%fè¡¨ç¤ºè¾“å…¥å›¾åƒ
 fi = preprocess(imresize(img, [height width])); 
-%ÖØĞÂÉèÖÃ²Ã¼ôºóµÄÍ¼Æ¬³ß´ç£¬ÔÙµ÷ÓÃpreprocessº¯Êı¶ÔÍ¼ÏñÊı¾İ½øĞĞ±ê×¼»¯´¦Àí
-Ai = (G.*conj(fft2(fi))); %conjº¯ÊıÓÃÓÚ¼ÆËã"¸´Êı"xµÄ¹²éîÖµ¡£¼´F*--¡·FµÄ¹²éî
+%é‡æ–°è®¾ç½®è£å‰ªåçš„å›¾ç‰‡å°ºå¯¸ï¼Œå†è°ƒç”¨preprocesså‡½æ•°å¯¹å›¾åƒæ•°æ®è¿›è¡Œæ ‡å‡†åŒ–å¤„ç†
+Ai = (G.*conj(fft2(fi))); %conjå‡½æ•°ç”¨äºè®¡ç®—"å¤æ•°"xçš„å…±è½­å€¼ã€‚å³F*--ã€‹Fçš„å…±è½­
 Bi = (fft2(fi).*conj(fft2(fi)));
-% %°´ÕÕÇóºÍ¹«Ê½¼ÆËãµÚÒ»¸öH
-% N = 128;
-% for i = 1:N
-%     fi = preprocess(rand_warp(img));
-%     Ai = Ai + (G.*conj(fft2(fi)));
-%     Bi = Bi + (fft2(fi).*conj(fft2(fi)));
-% end
+% %æŒ‰ç…§æ±‚å’Œå…¬å¼è®¡ç®—ç¬¬ä¸€ä¸ªH
+N = 128;
+for i = 1:N
+    fi = preprocess(rand_warp(img));
+    Ai = Ai + (G.*conj(fft2(fi)));
+    Bi = Bi + (fft2(fi).*conj(fft2(fi)));
+end
 
 % % MOSSE online training regimen
-eta = 0.125;   %¹Ù·½ÍÆ¼öµÄetaÖµ0.125
+eta = 0.125;   %å®˜æ–¹æ¨èçš„etaå€¼0.125
 fig = figure('Name', 'MOSSE');
 mkdir(['results_' dataset]);
-for i = 1:size(img_files, 1)  %±éÀúËùÓĞÍ¼Æ¬
-    %size(img_files, 1) ±íÊ¾Í¼Æ¬×ÜÊıÁ¿
-    img = imread(img_files(i,:));   %¶ÁÈ¡µÚiÕÅÍ¼Æ¬
+for i = 1:size(img_files, 1)  %éå†æ‰€æœ‰å›¾ç‰‡
+    %size(img_files, 1) è¡¨ç¤ºå›¾ç‰‡æ€»æ•°é‡
+    img = imread(img_files(i,:));   %è¯»å–ç¬¬iå¼ å›¾ç‰‡
     im = img;
-    if (size(img,3) == 3)  %ÈôÍ¨µÀÎª3
-        img = rgb2gray(img);  %×ª³É»Ò¶ÈÍ¼
+    if (size(img,3) == 3)  %è‹¥é€šé“ä¸º3
+        img = rgb2gray(img);  %è½¬æˆç°åº¦å›¾
     end
-    if (i == 1)      %µ±ÎªµÚÒ»ÕÅÍ¼Ê±
+    if (i == 1)      %å½“ä¸ºç¬¬ä¸€å¼ å›¾æ—¶
         Ai = eta.*Ai;
         Bi = eta.*Bi;
     else
-        Hi = Ai./Bi;   %²»ÊÇµÚÒ»ÕÅÍ¼µÄÊ±ºò£¬Çó½âÂË²¨H*
-        fi = imcrop(img, rect);   %ÔÙ°´Ö¸¶¨¾ØĞÎ´óĞ¡½øĞĞ²Ã¼ô2-376µÄ¶ÔÓ¦Í¼Æ¬
-        fi = preprocess(imresize(fi, [height width]));  %Ô¤´¦ÀíµÃµ½Êä³ö
-        gi = uint8(255*mat2gray(ifft2(Hi.*fft2(fi))));  %µÃµ½ÏìÓ¦ÖµÊä³ö ×ª»»³ÉÖµ·¶Î§ÔÚ[0,1]µÄ¹éÒ»»¯doubleÀàÊı×é 
-        maxval = max(gi(:));  %µÃµ½×î´óÏìÓ¦Öµ
-        [P, Q] = find(gi == maxval);  %ÕÒµ½×î´óÏìÓ¦ÖµËù¶ÔÓ¦µÄgi
+        Hi = Ai./Bi;   %ä¸æ˜¯ç¬¬ä¸€å¼ å›¾çš„æ—¶å€™ï¼Œæ±‚è§£æ»¤æ³¢H*
+        fi = imcrop(img, rect);   %å†æŒ‰æŒ‡å®šçŸ©å½¢å¤§å°è¿›è¡Œè£å‰ª2-376çš„å¯¹åº”å›¾ç‰‡
+        fi = preprocess(imresize(fi, [height width]));  %é¢„å¤„ç†å¾—åˆ°è¾“å‡º
+        gi = uint8(255*mat2gray(ifft2(Hi.*fft2(fi))));  %å¾—åˆ°å“åº”å€¼è¾“å‡º è½¬æ¢æˆå€¼èŒƒå›´åœ¨[0,1]çš„å½’ä¸€åŒ–doubleç±»æ•°ç»„ 
+        maxval = max(gi(:));  %å¾—åˆ°æœ€å¤§å“åº”å€¼
+        [P, Q] = find(gi == maxval);  %æ‰¾åˆ°æœ€å¤§å“åº”å€¼æ‰€å¯¹åº”çš„gi
         dx = mean(P)-height/2;
         dy = mean(Q)-width/2;
 
         
-        rect = [rect(1)+dy rect(2)+dx width height];  %¸üĞÂÖĞĞÄµã×ø±ê
-        fi = imcrop(img, rect);     %°´ĞÂ¸üĞÂµÄrectÄ¿±êµã½øĞĞ²Ã¼ôÍ¼Æ¬ 
+        rect = [rect(1)+dy rect(2)+dx width height];  %æ›´æ–°ä¸­å¿ƒç‚¹åæ ‡
+        fi = imcrop(img, rect);     %æŒ‰æ–°æ›´æ–°çš„rectç›®æ ‡ç‚¹è¿›è¡Œè£å‰ªå›¾ç‰‡ 
         fi = preprocess(imresize(fi, [height width]));
-        %×îºó¸üĞÂAiºÍBi
+        %æœ€åæ›´æ–°Aiå’ŒBi
         Ai = eta.*(G.*conj(fft2(fi))) + (1-eta).*Ai;
         Bi = eta.*(fft2(fi).*conj(fft2(fi))) + (1-eta).*Bi;
     end
     
     % visualization
-    text_str = ['Frame: ' num2str(i)];   %Ã¿Ò»ÕÅÍ¼Æ¬´ú±íÒ»Ö¡
+    text_str = ['Frame: ' num2str(i)];   %æ¯ä¸€å¼ å›¾ç‰‡ä»£è¡¨ä¸€å¸§
     box_color = 'green';
     position=[1 1];
     result = insertText(im, position,text_str,'FontSize',15,'BoxColor',...
                      box_color,'BoxOpacity',0.4,'TextColor','white');
-    result = insertShape(result, 'Rectangle', rect, 'LineWidth', 3); %»æÖÆ¾ØĞÎ ¿íÎª3
+    result = insertShape(result, 'Rectangle', rect, 'LineWidth', 3); %ç»˜åˆ¶çŸ©å½¢ å®½ä¸º3
     imwrite(result, ['results_' dataset num2str(i, '/%04i.jpg')]);
     %imwrite(result, ['results_temp' dataset num2str(i, '/%04i.jpg')]);
     imshow(result);
