@@ -1,5 +1,5 @@
-#Tips：Some matlab interpretation in Mosse algorithm with matlab from my point.
-Original matlab github address：
+# Tips：Some matlab interpretation in Mosse algorithm with matlab from my point. 
+Original matlab github address：https://github.com/amoudgl/mosse-tracker
 
 # mosse-tracker
 This is a MATLAB implementation of Minimum Output Sum of Squared Error (MOSSE) tracking algorithm.
@@ -15,11 +15,11 @@ Computer Vision and Pattern Recognition (CVPR), 2010 IEEE Conference on. IEEE, 2
 * MATLAB
 * MATLAB Vision Toolbox
 
-#How to run
+# How to run
 Run the `mosse` MATLAB script.   
    >> mosse
  
-#Final
+# Final
 you can use the jpgtovideo.m to create the avi file for simply watching the object tracking process after run the mosse.m.
 
 
