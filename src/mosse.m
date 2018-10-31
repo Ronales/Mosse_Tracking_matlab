@@ -94,7 +94,7 @@ for i = 1:size(img_files, 1)  %遍历所有图片
     result = insertText(im, position,text_str,'FontSize',15,'BoxColor',...
                      box_color,'BoxOpacity',0.4,'TextColor','white');
     result = insertShape(result, 'Rectangle', rect, 'LineWidth', 3); %绘制矩形 宽为3
-    %imwrite(result, ['results_' dataset num2str(i, '/%04i.jpg')]);
+    imwrite(result, ['results_' dataset num2str(i, '/%04i.jpg')]);
     %imwrite(result, ['results_temp' dataset num2str(i, '/%04i.jpg')]);
     imshow(result);
 end
