@@ -1,4 +1,4 @@
-# Tips：Some matlab interpretation in Mosse algorithm with matlab from my point. 
+# Tips：Some matlab interpretation in Mosse algorithm from my point. 
 Original matlab github address：https://github.com/amoudgl/mosse-tracker
 
 # mosse-tracker
